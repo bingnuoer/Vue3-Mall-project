@@ -1,15 +1,17 @@
 <script setup>
-import HomeCategory from "./HomeCategory.vue"
-import HomeBanner from "./HomeBanner.vue"
-import HomeNew from "./HomeNew.vue";
-import HomeHot from "./HomeHot.vue";
-import HomeProduct from "./HomeProduct.vue";
+import HomeCategory from './components/HomeCategory.vue'
+import HomeBanner from './components/HomeBanner.vue'
+import HomeNew from './components/HomeNew.vue'
+import HomeHot from './components/HomeHot.vue'
+import homeProduct from './components/HomeProduct.vue'
 </script>
 
 <template>
-    <HomeCategory></HomeCategory>
-    <HomeBanner></HomeBanner>
-    <HomeNew></HomeNew>
-    <HomeHot></HomeHot>
-    <HomeProduct></HomeProduct>
+  <div class="container">
+    <HomeCategory />
+    <HomeBanner />
+  </div>
+  <HomeNew />
+  <HomeHot />
+  <homeProduct />
 </template>
