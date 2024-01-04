@@ -1,7 +1,7 @@
-import  httpInstance  from '@/utils/http'
-export function getBannerAPI (){
+import httpInstance from '@/utils/http'
+export function getBannerAPI() {
   return httpInstance({
-    url:'home/banner'
+    url: 'home/banner'
   })
 }
 
@@ -10,9 +10,9 @@ export function getBannerAPI (){
  * @param {*}
  * @return {*}
  */
-export function findNewAPI (){
+export function findNewAPI() {
   return httpInstance({
-    url:'/home/new'
+    url: '/home/new'
   })
 }
 
@@ -21,3 +21,8 @@ export function findNewAPI (){
  * @param {*}
  * @return {*}
  */
+export const getHotAPI = () => {
+  return httpInstance({
+    url: '/home/hot'
+  })
+}
