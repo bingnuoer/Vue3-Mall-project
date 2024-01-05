@@ -10,12 +10,12 @@ export const lazyPlugin = {
             mounted(el, binding) {
                 // el:指令绑定的那个元素：img图片
                 // binding:binding.value 指令等于号后面绑定的表达式的值：图片url
-                console.log(el, binding.value);
+                // console.log(el, binding.value);
                 // 使用图片懒加载
                 const {stop} =useIntersectionObserver(
                     el,
                     ([{ isIntersecting }]) => {
-                        console.log(isIntersecting)
+                        // console.log(isIntersecting)
                         if (isIntersecting) {
                             // 进入视口区域
                             // 再用指令 给图片src属性绑定url地址，显示图片
