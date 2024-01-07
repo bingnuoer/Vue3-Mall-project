@@ -17,6 +17,7 @@ const categoryStore = useCategoryStore()
         </li>
         <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
           <!-- 使用链式导航，动态路由参数 -->
+          <!-- active-class="active"：激活类名 -->
           <RouterLink active-class="active" :to="`/category/${item.id}`">
             {{ item.name }}
           </RouterLink>
@@ -79,6 +80,7 @@ const categoryStore = useCategoryStore()
         }
       }
 
+      // 导航栏激活类名
       .active {
         color: $xtxColor;
         border-bottom: 1px solid $xtxColor;
