@@ -23,7 +23,9 @@ const router = createRouter({
           component:Home
         },
         {
-          path:'category',
+          // 动态路由，参数id
+          path:'category/:id',
+          name:'category',
           component:Category
         }
       ]

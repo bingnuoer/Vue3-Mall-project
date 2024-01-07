@@ -13,10 +13,19 @@ const categoryStore = useCategoryStore()
     <div class="app-header-sticky" :class="{ show: y > 78 }">
         <div class="container">
             <RouterLink class="logo" to="/" />
+            <!-- 吸顶导航配置动态路由，实现跳转 -->
             <!-- 导航区域 -->
             <ul class="app-header-nav ">
+                <li class="home">
+                    <!-- 使用链式导航，动态路由参数 -->
+                    <RouterLink to="/">首页</RouterLink>
+                </li>
+
                 <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
-                    <RouterLink to="/">{{ item.name }}</RouterLink>
+                    <!-- 使用链式导航，动态路由参数 -->
+                    <RouterLink active-class="active" :to="`/category/${item.id}`">
+                        {{ item.name }}
+                    </RouterLink>
                 </li>
 
             </ul>
