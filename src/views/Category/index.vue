@@ -6,6 +6,8 @@ import { ref, onMounted } from 'vue'
 // 路由传参
 import { useRoute } from 'vue-router'
 
+import GoodsItem from '@/views/Home/components/GoodsItem.vue'
+
 // 接收数据要看接口返回数据是什么类型
 const categoryData = ref({})
 // 创建一个route实例
@@ -55,6 +57,28 @@ onMounted(() => getBanner())
                         <img :src="item.imgUrl" alt="">
                     </el-carousel-item>
                 </el-carousel>
+            </div>
+
+            <!-- 分类数据模版-图渲染 -->
+            <div class="sub-list">
+                <h3>全部分类</h3>
+                <ul>
+                    <li v-for="i in categoryData.children" :key="i.id">
+                        <RouterLink to="/">
+                            <img :src="i.picture" />
+                            <p>{{ i.name }}</p>
+                        </RouterLink>
+                    </li>
+                </ul>
+            </div>
+            <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
+                <div class="head">
+                    <h3>- {{ item.name }}-</h3>
+                </div>
+                <div class="body">
+                    <!-- 使用封装的图模版 -->
+                    <GoodsItem v-for="goods in item.goods" :goods="goods" :key="goods.id" />
+                </div>
             </div>
         </div>
     </div>
@@ -142,17 +166,17 @@ onMounted(() => getBanner())
 
 // 轮播图的样式
 .home-banner {
-  width: 1240px;
-  height: 500px;
-//   定位会层叠掉样式
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-//   z-index: 98;
-
-  img {
-    width: 100%;
+    width: 1240px;
     height: 500px;
-  }
+    //   定位会层叠掉样式
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+    //   z-index: 98;
+
+    img {
+        width: 100%;
+        height: 500px;
+    }
 }
 </style>
