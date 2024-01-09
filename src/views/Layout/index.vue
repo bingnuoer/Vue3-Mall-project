@@ -20,6 +20,9 @@ onMounted(()=>{
     <LayoutFixed />
     <LayoutNav />
     <LayoutHeader />
-    <RouterView />
+    <!-- 绑定key,破坏复用机制，强制销毁重建 -->
+    <!-- 解决：使用钩子函数onBeforeRouteUpdate -->
+    <!-- <RouterView :key="$route.fullPath"/> -->
+    <RouterView/>
     <LayoutFooter />
 </template>
