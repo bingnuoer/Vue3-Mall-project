@@ -1,52 +1,20 @@
 <script setup>
-import { getCategoryAPI } from '@/apis/category'
-import { getBannerAPI } from '@/apis/home'
-
-import { ref, onMounted } from 'vue'
-// 路由传参
-import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
 import GoodsItem from '@/views/Home/components/GoodsItem.vue'
 
-// 接收数据要看接口返回数据是什么类型
-const categoryData = ref({})
-// 创建一个route实例
-const route = useRoute()
-// id = route.params.id 表示to.params.id有值时传给id，没值时给id一个默认值route.params.id
-const getCategory = async (id = route.params.id) => {
-    // 更新onBeforeRouteUpdate钩子函数中的路由参数Id
-    const res = await getCategoryAPI(id)
-    // console.log(res);
-    categoryData.value = res.result
-}
+// 导入分类业务逻辑函数模块
+import { useCategory } from './composables/useCategory'
 
-onMounted(() => {
-    getCategory()
-})
+// 导入banner函数模块
+import { useBanner } from './composables/useBanner'
 
-// 每次切换路由时，banner都请求一次，缓存浪费
-// 目标：路由参数变化时候，可以吧分类数据接口重新发送，这样避免了banner请求
-// onBeforeRouteUpdate携带对象参数to,会包含路由参数
-onBeforeRouteUpdate((to) => {
-    console.log("路由变化了");
-    // 存在问题：使用最新的路由参数请求最新的分类数据
-    console.log(to);
-    getCategory(to.params.id)
-})
+// 分类业务
+const { categoryData } = useCategory()
+
 
 // banner轮播图
+const { bannerList } = useBanner()
 
-const bannerList = ref([])
-
-const getBanner = async () => {
-    const res = await getBannerAPI({
-        distributionSite: '2'
-    })
-    console.log(res)
-    bannerList.value = res.result
-}
-
-onMounted(() => getBanner())
 
 
 </script>
