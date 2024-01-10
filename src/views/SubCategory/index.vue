@@ -1,8 +1,10 @@
 <script setup>
-import { getCategoryFilterAPI } from '@/apis/category.js'
+import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category.js'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
+import  GoodsItem  from '@/views/Home/components/GoodsItem.vue';
 
+// 获取二级分类列表数据-面包屑导航
 // 创建路由实例
 const route = useRoute()
 
@@ -15,6 +17,22 @@ const getCategoryData = async () => {
 }
 
 onMounted(() => getCategoryData())
+
+// 获取二级分类商品列表数据
+const goodList = ref([])
+const reqData = ref({
+    categoryId: route.params.id,
+    page: 1,
+    pageSize: 20,
+    sortField: 'publishTime'
+})
+const getGoodList = async () => {
+    const res = await getSubCategoryAPI(reqData.value)
+    console.log(res);
+    goodList.value = res.result.items
+}
+
+onMounted(() => getGoodList())
 
 
 </script>
@@ -38,7 +56,9 @@ onMounted(() => getCategoryData())
                 <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
             </el-tabs>
             <div class="body">
-                <!-- 商品列表-->
+                <!-- 商品列表-封装好的模块-->
+                <!-- goods是封装的模块导出的数据名 -->
+                <GoodsItem v-for="item in goodList" :goods="item" :key="item.id" />
             </div>
         </div>
     </div>
