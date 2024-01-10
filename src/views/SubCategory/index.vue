@@ -2,7 +2,7 @@
 import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category.js'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
-import  GoodsItem  from '@/views/Home/components/GoodsItem.vue';
+import GoodsItem from '@/views/Home/components/GoodsItem.vue';
 
 // 获取二级分类列表数据-面包屑导航
 // 创建路由实例
@@ -24,7 +24,8 @@ const reqData = ref({
     categoryId: route.params.id,
     page: 1,
     pageSize: 20,
-    sortField: 'publishTime'
+    // 面包屑导航数据
+    sortField: 'publishTime' | 'orderNum' | 'evaluateNum'
 })
 const getGoodList = async () => {
     const res = await getSubCategoryAPI(reqData.value)
@@ -33,6 +34,16 @@ const getGoodList = async () => {
 }
 
 onMounted(() => getGoodList())
+
+// 点击tab卡片式导航，实现数据切换
+const tabChange = () => {
+    console.log("tab切换了",reqData.value.sortField);
+    // 请求之前每次把导航页置为1
+    reqData.value.page = 1
+    // 重新发起请求
+    getGoodList()
+
+}
 
 
 </script>
@@ -50,7 +61,11 @@ onMounted(() => getGoodList())
             </el-breadcrumb>
         </div>
         <div class="sub-container">
-            <el-tabs>
+            <!-- element-ui组件 -->
+            <!-- 数据双向绑定：获取当前点击的卡片式导航的数据 -->
+            <!-- @tab-change="tabChange" 监听卡片导航的改变 -->
+            <!-- name="publishTim"的属性都是根据接口文档命名 -->
+            <el-tabs v-model="reqData.sortField" @tab-change="tabChange">
                 <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
                 <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
                 <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
