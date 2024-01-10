@@ -37,11 +37,29 @@ onMounted(() => getGoodList())
 
 // 点击tab卡片式导航，实现数据切换
 const tabChange = () => {
-    console.log("tab切换了",reqData.value.sortField);
+    console.log("tab切换了", reqData.value.sortField);
     // 请求之前每次把导航页置为1
     reqData.value.page = 1
     // 重新发起请求
     getGoodList()
+
+}
+
+const disabled = ref(false) //没有禁止无限加载
+// 无限滚动-加载更多
+const load = async () => {
+    console.log("加载更多数据咯");
+    // 页数+1
+    reqData.value.page++
+    // 发送请求获取下一页数据
+    const res = await getSubCategoryAPI(reqData.value)
+    // 最新goodList数据=老数据+新数据 拼接:展开运算符
+    goodList.value = [...goodList.value, ...res.result.items]
+
+    // 加载完毕,结束监听
+    if (res.result.items.length === 0) {
+        disabled.value = true //结束监听
+    }
 
 }
 
@@ -70,7 +88,8 @@ const tabChange = () => {
                 <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
                 <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
             </el-tabs>
-            <div class="body">
+            <!-- v-infinite-scroll 无限滚动 -->
+            <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
                 <!-- 商品列表-封装好的模块-->
                 <!-- goods是封装的模块导出的数据名 -->
                 <GoodsItem v-for="item in goodList" :goods="item" :key="item.id" />
