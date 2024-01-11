@@ -9,6 +9,7 @@ import Home from '@/views/Home/index.vue'
 import Category from '@/views/Category/index.vue'
 // 配置路由-导入二级分类页
 import SubCategory from '@/views/SubCategory/index.vue'
+import Detail from '@/views/Detail/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,13 @@ const router = createRouter({
           path: 'category/sub/:id',
           name: 'subcategory',
           component: SubCategory
+        },
+        // 二级详情页-新鲜好物点击商品会跳转到这个路由对应的页面（商品详情页）下
+        {
+          // 动态路由，参数id
+          path: 'detail/:id',
+          name: 'detail',
+          component: Detail
         }
       ]
     },
