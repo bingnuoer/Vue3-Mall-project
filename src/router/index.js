@@ -23,23 +23,23 @@ const router = createRouter({
       component: Layout,
       // 配置二级路由路径：一级网页下的二级路由
       // 并 在对应的一级网页页面配置二级路由出口
-      children:[
+      children: [
         {
-          path:'', //“/”进入home页面
-          component:Home
+          path: '', //“/”进入home页面
+          component: Home
         },
         {
           // 动态路由，参数id
-          path:'category/:id',
-          name:'category',
-          component:Category
+          path: 'category/:id',
+          name: 'category',
+          component: Category
         },
         // 二级分类页
         {
           // 动态路由，参数id
-          path:'category/sub/:id',
-          name:'subcategory',
-          component:SubCategory
+          path: 'category/sub/:id',
+          name: 'subcategory',
+          component: SubCategory
         }
       ]
     },
@@ -47,7 +47,14 @@ const router = createRouter({
       path: '/login',
       component: Login
     }
-  ]
+  ],
+  // 路由滚动行为定制：切换路由时使页面自动定位到顶部
+  scrollBehavior() {
+    return {
+      top: 0
+    }
+  }
+
 })
 
 export default router
