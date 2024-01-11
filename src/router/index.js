@@ -29,6 +29,7 @@ const router = createRouter({
           path: '', //“/”进入home页面
           component: Home
         },
+        // 分类页
         {
           // 动态路由，参数id
           path: 'category/:id',
