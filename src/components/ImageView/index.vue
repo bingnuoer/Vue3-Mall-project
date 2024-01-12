@@ -1,7 +1,8 @@
 <!-- 放其余的组件结构 -->
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useMouseInElement } from '@vueuse/core'
 
 // 图片列表
 const imageList = [
@@ -12,6 +13,7 @@ const imageList = [
     "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
 ]
 
+// 目标1：切换小图展示大图
 // 记录小图的下标值
 const activeIndex = ref(0)
 const mouseEnterFn = (i) => {
@@ -19,16 +21,47 @@ const mouseEnterFn = (i) => {
     activeIndex.value = i
 }
 
+// 目标2：移动鼠标，放大大图相对位置
+// 获取鼠标相对位置
+const target = ref(null)
+const { elementX, elementY, isOutside } = useMouseInElement(target)
+const left = ref(0)
+const top = ref(0)
+// 控制滑块跟随鼠标移动(监听elementX/Y变化，一旦变化 重新设置left/top)
+watch([elementX, elementY], () => {
+    console.log('x/y变化了');
+    // 有效移动范围
+    // 横向
+    if (elementX.value > 100 && elementX.value < 300) {
+        left.value = elementX.value - 100
+    }
+    // 纵向
+    if (elementY.value > 100 && elementY.value < 300) {
+        top.value = elementY.value - 100
+    }
+
+    // 边界距离控制
+    // 横向
+    if (elementX.value < 100) { left.value = 0 }
+    if (elementX.value > 300) { left.value = 200 }
+    // 纵向
+    if (elementY.value < 100) { top.value = 0 }
+    if (elementY.value > 300) { top.value = 200 }
+})
+
+
 </script>
 
 
 <template>
+    {{ elementX }}, {{ elementY }}, {{ isOutside }}
     <div class="goods-image">
         <!-- 左侧大图-->
+        <!-- ref="target" 绑定数据 -->
         <div class="middle" ref="target">
             <img :src="imageList[activeIndex]" alt="" />
             <!-- 蒙层小滑块 -->
-            <div class="layer" :style="{ left: `0px`, top: `0px` }"></div>
+            <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
         </div>
         <!-- 小图列表 -->
         <ul class="small">
