@@ -4,14 +4,23 @@
 import { ref, watch } from 'vue'
 import { useMouseInElement } from '@vueuse/core'
 
+// props适配图片列表数据
+defineProps({
+    // 组件props出的数据是imagelist ，这边用image-list接收
+    imageList: {
+        type: Array,
+        default: () => { }
+    }
+})
+
 // 图片列表
-const imageList = [
-    "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
-    "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
-    "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
-    "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
-    "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
-]
+// const imageList = [
+//     "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
+//     "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
+//     "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
+//     "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
+//     "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
+// ]
 
 // 目标1：切换小图展示大图
 // 记录小图的下标值
@@ -37,7 +46,7 @@ watch([elementX, elementY], () => {
     console.log('x/y变化了');
 
     // 如果鼠标在盒子内部，才执行后续逻辑
-    if(isOutside.value) return
+    if (isOutside.value) return
     console.log("后续逻辑执行了");
     // 有效移动范围
     // 横向
@@ -89,7 +98,7 @@ watch([elementX, elementY], () => {
             {
                 backgroundImage: `url(${imageList[0]})`,
                 // 设置背景图片在 X 轴方向上的位置
-                backgroundPositionX: `${positionX}px`, 
+                backgroundPositionX: `${positionX}px`,
                 // 设置背景图片在 Y 轴方向上的位置
                 backgroundPositionY: `${positionY}px`,
             },

@@ -42,7 +42,8 @@ onMounted(() => getGoods())
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-                            <ImageView/>
+                            <!-- 组件props出的数据是imagelist ，这边用image-list接收 -->
+                            <ImageView :image-list="goods.mainPictures"/>
 
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
