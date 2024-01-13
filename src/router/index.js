@@ -52,6 +52,7 @@ const router = createRouter({
         }
       ]
     },
+    // 登录页路由
     {
       path: '/login',
       component: Login
