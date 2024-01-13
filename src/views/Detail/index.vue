@@ -1,9 +1,11 @@
 <script setup>
 import DetailHot from './components/DetailHot.vue'
 import ImageView from '@/components/ImageView/index.vue'
+import XtxSku from '@/components/XtxSku/index.vue' 
 import { getDetailAPI } from '@/apis/detail.js'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
+
 
 const route = useRoute()
 const goods = ref([])
@@ -93,6 +95,8 @@ onMounted(() => getGoods())
                                 </dl>
                             </div>
                             <!-- sku组件 -->
+                            <!-- :goods="goods"    :接收父组件props传出的数据=“本页面定义的数据” -->
+                            <XtxSku :goods="goods"/>
 
                             <!-- 数据组件 -->
 
