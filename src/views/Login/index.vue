@@ -1,4 +1,23 @@
 <script setup>
+// 表单校验(账号名+密码)
+import { ref } from 'vue'
+
+// 1.准备表单对象
+const form = ref({
+  account: '',
+  password: ''
+})
+
+// 2.表单校验规则
+const rules = {
+  account: [
+    { required: true, message: '用户名不能为空', blur: true }
+  ],
+  password: [
+    { required: true, message: '密码不能为空', blur: true },
+    { min: 6, max: 14, message: '密码长度为6-14位', blur: true }
+  ]
+}
 
 </script>
 
@@ -24,16 +43,19 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px"
-              status-icon>
-              <el-form-item  label="账户">
-                <el-input/>
+            <!--:model="form" 绑定表单 -->
+            <!-- :rules="rules" 绑定表单校验规则 -->
+            <el-form :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
+              <!-- 绑定表单域校验字段名 -->
+              <el-form-item prop="account" label="账户">
+                <!-- 表单数据双向绑定 -->
+                <el-input v-model="form.account"/>
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input/>
+              <el-form-item prop="password" label="密码">
+                <el-input v-model="form.password"/>
               </el-form-item>
               <el-form-item label-width="22px">
-                <el-checkbox  size="large">
+                <el-checkbox size="large">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
