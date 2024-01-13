@@ -13,6 +13,9 @@ import "@/styles/common.scss"
 // 引入懒加载指令插件并注册
 import { lazyPlugin } from '@/directives/index.js'
 
+// 引入全局组件
+import { componentPlugin } from '@/components/index.js'
+
 // 定义懒加载插件
 const app = createApp(App)
 
@@ -20,6 +23,9 @@ app.use(createPinia())
 app.use(router)
 // 导入图片懒加载插件
 app.use(lazyPlugin)
+
+// 导入全局组件
+app.use(componentPlugin)
 
 app.mount('#app')
 

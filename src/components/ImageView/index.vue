@@ -1,4 +1,5 @@
 <!-- 放其余的组件结构 -->
+<!-- 图片蒙层 -->
 
 <script setup>
 import { ref, watch } from 'vue'
@@ -43,11 +44,11 @@ const positionX = ref(0)
 const positionY = ref(0)
 // 控制滑块跟随鼠标移动(监听elementX/Y变化，一旦变化 重新设置left/top)
 watch([elementX, elementY], () => {
-    console.log('x/y变化了');
+    // console.log('x/y变化了');
 
     // 如果鼠标在盒子内部，才执行后续逻辑
     if (isOutside.value) return
-    console.log("后续逻辑执行了");
+    // console.log("后续逻辑执行了");
     // 有效移动范围
     // 横向
     if (elementX.value > 100 && elementX.value < 300) {
@@ -76,7 +77,7 @@ watch([elementX, elementY], () => {
 
 
 <template>
-    {{ elementX }}, {{ elementY }}, {{ isOutside }}
+    <!-- {{ elementX }}, {{ elementY }}, {{ isOutside }} -->
     <div class="goods-image">
         <!-- 左侧大图-->
         <!-- ref="target" 绑定数据 -->

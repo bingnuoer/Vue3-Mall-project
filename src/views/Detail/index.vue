@@ -1,7 +1,8 @@
 <script setup>
 import DetailHot from './components/DetailHot.vue'
-import ImageView from '@/components/ImageView/index.vue'
-import XtxSku from '@/components/XtxSku/index.vue' 
+// XtxImageView，XtxSku已经注册为全局组件，不用再导入
+// import ImageView from '@/components/ImageView/index.vue'
+// import XtxSku from '@/components/XtxSku/index.vue' 
 import { getDetailAPI } from '@/apis/detail.js'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
@@ -16,6 +17,11 @@ const getGoods = async () => {
 }
 
 onMounted(() => getGoods())
+
+// sku规格被操作时
+const skuChange = (sku) => {
+    console.log(sku);
+}
 
 
 </script>
@@ -45,7 +51,7 @@ onMounted(() => getGoods())
                         <div class="media">
                             <!-- 图片预览区 -->
                             <!-- 组件props出的数据是imagelist ，这边用image-list接收 -->
-                            <ImageView :image-list="goods.mainPictures"/>
+                            <XtxImageView :image-list="goods.mainPictures"/>
 
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
@@ -95,8 +101,8 @@ onMounted(() => getGoods())
                                 </dl>
                             </div>
                             <!-- sku组件 -->
-                            <!-- :goods="goods"    :接收父组件props传出的数据=“本页面定义的数据” -->
-                            <XtxSku :goods="goods"/>
+                            <!-- :goods="goods"    :接收SKU父组件props传出的数据=“本页面定义的数据” -->
+                            <XtxSku :goods="goods" @change="skuChange"/>
 
                             <!-- 数据组件 -->
 

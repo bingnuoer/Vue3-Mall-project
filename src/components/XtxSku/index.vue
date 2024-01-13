@@ -95,6 +95,7 @@ export default {
     // specs:所有的规格信息  skus:所有的sku组合
     goods: {
       type: Object,
+      // 当 颜色、尺码 两个参数都有值时才被触发
       default: () => ({ specs: [], skus: [] })
     }
   },
