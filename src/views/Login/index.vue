@@ -1,13 +1,25 @@
 <script setup>
 // 表单校验(账号名+密码)
 import { ref } from 'vue'
+import { getLoginAPI } from '@/apis/user.js'
+// 弹框
+import { ElMessage } from 'element-plus'
+// 解决样式覆盖
+import 'element-plus/theme-chalk/el-message.css'
+import { useRouter } from 'vue-router'
+
+// 1.用户名和密码  只需要通过简单的配置(看文档的方式-复杂功能通过多个不同组件拆解)
+// 2.同意协议      自定义规则 validator :(rule,value , callback)=>{}
+// 3.统一校验      通过调用form实例的方法 validate -> true
+
 
 // 1.准备表单对象
 const form = ref({
-  account: '',
-  password: '',
-  agree: '' //是否同意协议
+  account: 'heima282',
+  password: 'hm#qd@23!',
+  agree: true  //是否同意协议
 })
+const router = useRouter()
 
 // 2.表单校验规则
 const rules = {
@@ -22,7 +34,7 @@ const rules = {
   agree: [
     {
       validator: (rule, value, callback) => {
-        console.log(value); //true、false
+        // console.log(value); //true、false
         // 自定义校验逻辑
         // 勾选就通过，不勾选就不通过
         if (value) {
@@ -34,6 +46,30 @@ const rules = {
     }
   ]
 
+}
+
+// 点击登录：获取form实例做统一校验
+const formRef = ref(null)
+const doLogin = () => {
+  const { account, password } = form.value
+  formRef.value.validate(async (valid) => {
+    // validate调用表单校验这个方法
+    // valid:所有表单都通过校验 才为true
+    console.log(valid);
+    // 以valid作为判断条件，如果通过校验才执行登录逻辑
+    if (valid) {
+      // TODO LOGIN
+      // 发送登录请求
+      const res = await getLoginAPI({ account, password })
+      // console.log("登录请求");
+      // console.log(res);
+      // 弹框
+      ElMessage({type:'success',message:'登录成功！'})
+      // 跳转首页
+      router.replace({path:'/'})
+      // 很多接口会出现错误-登录请求失败的逻辑在 请求拦截器中
+    }
+  })
 }
 
 </script>
@@ -62,7 +98,8 @@ const rules = {
           <div class="form">
             <!--:model="form" 绑定表单 -->
             <!-- :rules="rules" 绑定表单校验规则 -->
-            <el-form :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
+            <!-- ref="formRef" 绑定表单实例，做统一校验 -->
+            <el-form ref="formRef" :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
               <!-- 绑定表单域校验字段名 -->
               <el-form-item prop="account" label="账户">
                 <!-- 表单数据双向绑定 -->
@@ -76,7 +113,7 @@ const rules = {
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button size="large" class="subBtn" @click="doLogin()">点击登录</el-button>
             </el-form>
           </div>
         </div>
