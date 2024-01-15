@@ -1,12 +1,12 @@
 <script setup>
 // 表单校验(账号名+密码)
 import { ref } from 'vue'
-import { getLoginAPI } from '@/apis/user.js'
 // 弹框
 import { ElMessage } from 'element-plus'
 // 解决样式覆盖
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user.js'
 
 // 1.用户名和密码  只需要通过简单的配置(看文档的方式-复杂功能通过多个不同组件拆解)
 // 2.同意协议      自定义规则 validator :(rule,value , callback)=>{}
@@ -20,6 +20,7 @@ const form = ref({
   agree: true  //是否同意协议
 })
 const router = useRouter()
+const userStore = useUserStore()
 
 // 2.表单校验规则
 const rules = {
@@ -59,16 +60,15 @@ const doLogin = () => {
     // 以valid作为判断条件，如果通过校验才执行登录逻辑
     if (valid) {
       // TODO LOGIN
-      // 发送登录请求
-      const res = await getLoginAPI({ account, password })
-      // console.log("登录请求");
-      // console.log(res);
-      // 弹框
-      ElMessage({type:'success',message:'登录成功！'})
-      // 跳转首页
-      router.replace({path:'/'})
-      // 很多接口会出现错误-登录请求失败的逻辑在 请求拦截器中
+      // pinia管理的数据-发送登录请求
+      await userStore.getUserInfo({ account, password })
+
+      // 1.提示用户-弹框
+      ElMessage({ type: 'success', message: '登录成功！' })
+      // 2.跳转首页
+      router.replace({ path: '/' })
     }
+    // 很多接口会出现错误-登录请求失败的逻辑在 请求拦截器中
   })
 }
 
