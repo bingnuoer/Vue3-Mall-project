@@ -19,4 +19,9 @@ export const useUserStore = defineStore('user', () => {
         userInfo,
         getUserInfo
     }
-})
+},
+    {
+        // 导入pinia持久化存储
+        persist: true,
+    }
+)

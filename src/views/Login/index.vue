@@ -12,6 +12,7 @@ import { useUserStore } from '@/stores/user.js'
 // 2.同意协议      自定义规则 validator :(rule,value , callback)=>{}
 // 3.统一校验      通过调用form实例的方法 validate -> true
 
+const userStore = useUserStore()
 
 // 1.准备表单对象
 const form = ref({
@@ -20,7 +21,7 @@ const form = ref({
   agree: true  //是否同意协议
 })
 const router = useRouter()
-const userStore = useUserStore()
+
 
 // 2.表单校验规则
 const rules = {

@@ -16,10 +16,18 @@ import { lazyPlugin } from '@/directives/index.js'
 // 引入全局组件
 import { componentPlugin } from '@/components/index.js'
 
+// 导入pinia持久化存储插件
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
 // 定义懒加载插件
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+// 注册持久化插件
+pinia.use(piniaPluginPersistedstate)
+
+app.use(pinia)
+
 app.use(router)
 // 导入图片懒加载插件
 app.use(lazyPlugin)
@@ -28,5 +36,7 @@ app.use(lazyPlugin)
 app.use(componentPlugin)
 
 app.mount('#app')
+
+
 
 
