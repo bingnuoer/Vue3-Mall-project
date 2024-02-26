@@ -3,8 +3,9 @@ import { defineStore } from "pinia";
 import { ref } from 'vue'
 import { getLoginAPI } from '@/apis/user.js'
 
+// 从后端获取数据 并进行赋值
 export const useUserStore = defineStore('user', () => {
-    // 1.定义管理用户数据的store
+    // 1.定义管理用户数据的state
     const userInfo = ref({})
 
     // 2.定义获取接口数据的action函数

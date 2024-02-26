@@ -5,6 +5,7 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 // 解决样式覆盖
 import 'element-plus/theme-chalk/el-message.css'
+// useRouter 调方法，useRoute 获取参数
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.js'
 
