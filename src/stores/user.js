@@ -15,10 +15,16 @@ export const useUserStore = defineStore('user', () => {
         userInfo.value = res.result
     }
 
+    // 退出登录时清空用户信息
+    const clearUserInfo = () => {
+        userInfo.value = {}
+    }
+
     // 3.以对象的格式把state和action return
     return {
         userInfo,
-        getUserInfo
+        getUserInfo,
+        clearUserInfo
     }
 },
     {

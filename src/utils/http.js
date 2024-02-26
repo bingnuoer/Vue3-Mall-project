@@ -7,6 +7,9 @@ import { useUserStore } from '@/stores/user.js'
 
 // 解决样式覆盖
 import 'element-plus/theme-chalk/el-message.css'
+// import { useRouter } from 'vue-router'
+import router from '@/router'
+
 
 // 创建axios实例
 const httpInstance = axios.create({
@@ -31,6 +34,7 @@ httpInstance.interceptors.request.use(config => {
 
 // axios响应式拦截器
 httpInstance.interceptors.response.use(res => res.data, e => {
+  const userStore = useUserStore()
   // console.log("axios响应式拦截器");
   // 统一错误提示
   // console.log(e);
@@ -38,6 +42,14 @@ httpInstance.interceptors.response.use(res => res.data, e => {
     type: 'warning',
     message: e.response.data.message
   })
+
+  // 401token失效处理
+  if (e.response.status === 401) {
+    // 1.清空用户信息
+    userStore.clearUserInfo()
+    // 2.跳转到登录页
+    router.push('/login')
+  }
   return Promise.reject(e)
 })
 
