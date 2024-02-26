@@ -1,5 +1,8 @@
 <script setup>
 import router from '@/router/index.js';
+import { useUserStore } from '@/stores/user.js'
+
+const userStore = useUserStore()
 
 </script>
 
@@ -7,8 +10,12 @@ import router from '@/router/index.js';
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="false">
-          <li><a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a></li>
+        <!-- 多模版渲染 区分登录状态和非登录状态 -->
+
+        <!-- 适配思路：登录时显示第一块，非登录时显示第二块 是否有token -->
+        <!-- 登录后导航栏 -->
+        <template v-if="userStore.userInfo.token">
+          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a></li>
           <li>
             <el-popconfirm title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
               <template #reference>
@@ -19,6 +26,7 @@ import router from '@/router/index.js';
           <li><a href="javascript:;">我的订单</a></li>
           <li><a href="javascript:;">会员中心</a></li>
         </template>
+        <!-- 登录前导航栏 -->
         <template v-else>
           <!-- router.push('/login') 路由跳转  -->
           <li><a href="javascript:;" @click="router.push('/login')">请先登录</a></li>
@@ -34,11 +42,13 @@ import router from '@/router/index.js';
 <style scoped lang="scss">
 .app-topnav {
   background: #333;
+
   ul {
     display: flex;
     height: 53px;
     justify-content: flex-end;
     align-items: center;
+
     li {
       a {
         padding: 0 15px;
