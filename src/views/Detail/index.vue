@@ -4,12 +4,16 @@ import DetailHot from './components/DetailHot.vue'
 // import ImageView from '@/components/ImageView/index.vue'
 // import XtxSku from '@/components/XtxSku/index.vue' 
 import { getDetailAPI } from '@/apis/detail.js'
+import { ElMessage } from 'element-plus';
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
+import { useCartStore } from '@/stores/cartStore.js'
 
 
 const route = useRoute()
 const goods = ref([])
+const cartStore = useCartStore()
+
 const getGoods = async () => {
     const res = await getDetailAPI(route.params.id)
     // console.log(res);
@@ -19,10 +23,41 @@ const getGoods = async () => {
 onMounted(() => getGoods())
 
 // sku规格被操作时
+let skuObj = {} // 商品的规格和尺码全选才有skuObj
 const skuChange = (sku) => {
     console.log(sku);
+    skuObj = sku
 }
 
+// count 
+const count = ref(1)
+
+const countChange = (count) => {
+    // 修改数量的逻辑
+    console.log(count);
+}
+
+// 添加购物车
+const addCart = () => {
+    if (skuObj.skuId) {
+        // 规格选择完毕，可以加入购物车
+        // 调用添加购物车的pinia方法
+        cartStore.addCart({
+            id: goods.value.id,
+            name: goods.value.name,
+            picture: goods.value.mainPictures[0],
+            price: goods.value.price,
+            count: count.value,
+            skuId: skuObj.skuId,
+            attrsText: skuObj.specsText,// 商品规格文本
+            selected: true // 商品是否选中
+        })
+    } else {
+        // 缺少规格，提示用户
+        ElMessage.warning('请选择商品规格')
+    }
+
+}
 
 </script>
 
@@ -51,7 +86,7 @@ const skuChange = (sku) => {
                         <div class="media">
                             <!-- 图片预览区 -->
                             <!-- 组件props出的数据是imagelist ，这边用image-list接收 -->
-                            <XtxImageView :image-list="goods.mainPictures"/>
+                            <XtxImageView :image-list="goods.mainPictures" />
 
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
@@ -102,13 +137,14 @@ const skuChange = (sku) => {
                             </div>
                             <!-- sku组件 -->
                             <!-- :goods="goods"    :接收SKU父组件props传出的数据=“本页面定义的数据” -->
-                            <XtxSku :goods="goods" @change="skuChange"/>
+                            <XtxSku :goods="goods" @change="skuChange" />
 
                             <!-- 数据组件 -->
+                            <el-input-number v-model="count" @change="countChange" />
 
                             <!-- 按钮组件 -->
                             <div>
-                                <el-button size="large" class="btn">
+                                <el-button size="large" class="btn" @click="addCart">
                                     加入购物车
                                 </el-button>
                             </div>
@@ -139,9 +175,9 @@ const skuChange = (sku) => {
                         <!-- 24热榜+专题推荐 -->
                         <div class="goods-aside">
                             <!-- 24小时热榜 -->
-                            <DetailHot :hot-type="1"/>
+                            <DetailHot :hot-type="1" />
                             <!-- 周热榜 -->
-                            <DetailHot :hot-type="2"/>
+                            <DetailHot :hot-type="2" />
                         </div>
                     </div>
                 </div>
