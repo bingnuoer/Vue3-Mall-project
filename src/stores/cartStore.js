@@ -1,6 +1,6 @@
 // 封装购物车模块
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 
 export const useCartStore = defineStore('cart', () => {
@@ -30,10 +30,23 @@ export const useCartStore = defineStore('cart', () => {
         const idx = cartList.value.findIndex((item) => skuId === item.skuId)
         cartList.value.splice(idx, 1)
     }
+
+    // 4.计算属性
+    // 1）.总的数量 所有项的count之和
+    // 数组的 reduce 方法是用于对数组中的每个元素进行累积计算的方法。它接受一个回调函数作为参数，并且可以传入一个初始值。
+    // const sum = arr.reduce((累积值, 当前值-是一个对象) => 累积值 + 当前值, 初始累积值为 0);
+    const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
+
+    // 2）总价 所有项的count*price之和
+    const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
+
     return {
         cartList,
+        allCount, //购物车 商品总数
+        allPrice, //购物车 总价格
         addCart,
-        delCart
+        delCart,
+        
     }
 },
     {
