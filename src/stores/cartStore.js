@@ -38,6 +38,15 @@ export const useCartStore = defineStore('cart', () => {
         item.selected = selected
     }
 
+    // 全选功能
+    const allCheck = (selected) => {
+        // 把cartList中的每一项的selected都设置为当前的全选框状态
+        cartList.value.forEach((item)=>item.selected = selected)
+    }
+    // 是否全选
+    // 获取数组中所有项-every方法
+    const isAll = computed(()=> cartList.value.every((item) => item.selected))
+
     // 4.计算属性
     // 1）.总的数量 所有项的count之和
     // 数组的 reduce 方法是用于对数组中的每个元素进行累积计算的方法。它接受一个回调函数作为参数，并且可以传入一个初始值。
@@ -51,9 +60,11 @@ export const useCartStore = defineStore('cart', () => {
         cartList,
         allCount, //购物车 商品总数
         allPrice, //购物车 总价格
+        isAll,  //是否全选
         addCart,
         delCart,
-        singleCheck
+        singleCheck,
+        allCheck // 全选功能
     }
 },
     {
