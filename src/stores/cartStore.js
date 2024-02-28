@@ -31,6 +31,13 @@ export const useCartStore = defineStore('cart', () => {
         cartList.value.splice(idx, 1)
     }
 
+    // 单选功能
+    const singleCheck = (skuId, selected) => {
+        // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
+        const item = cartList.value.find((item) => item.skuId === skuId)
+        item.selected = selected
+    }
+
     // 4.计算属性
     // 1）.总的数量 所有项的count之和
     // 数组的 reduce 方法是用于对数组中的每个元素进行累积计算的方法。它接受一个回调函数作为参数，并且可以传入一个初始值。
@@ -46,7 +53,7 @@ export const useCartStore = defineStore('cart', () => {
         allPrice, //购物车 总价格
         addCart,
         delCart,
-        
+        singleCheck
     }
 },
     {
