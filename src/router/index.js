@@ -10,6 +10,7 @@ import Category from '@/views/Category/index.vue'
 // 配置路由-导入二级分类页
 import SubCategory from '@/views/SubCategory/index.vue'
 import Detail from '@/views/Detail/index.vue'
+import CartList from '@/views/CartList/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +50,10 @@ const router = createRouter({
           path: 'detail/:id',
           name: 'detail',
           component: Detail
+        },
+        {
+          path: '/cartlist',
+          component: CartList
         }
       ]
     },
