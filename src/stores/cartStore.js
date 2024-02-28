@@ -41,14 +41,14 @@ export const useCartStore = defineStore('cart', () => {
     // 全选功能
     const allCheck = (selected) => {
         // 把cartList中的每一项的selected都设置为当前的全选框状态
-        cartList.value.forEach((item)=>item.selected = selected)
+        cartList.value.forEach((item) => item.selected = selected)
     }
     // 是否全选
     // 获取数组中所有项-every方法
-    const isAll = computed(()=> cartList.value.every((item) => item.selected))
+    const isAll = computed(() => cartList.value.every((item) => item.selected))
 
     // 4.计算属性
-    // 1）.总的数量 所有项的count之和
+    // 1）总的数量 所有项的count之和
     // 数组的 reduce 方法是用于对数组中的每个元素进行累积计算的方法。它接受一个回调函数作为参数，并且可以传入一个初始值。
     // const sum = arr.reduce((累积值, 当前值-是一个对象) => 累积值 + 当前值, 初始累积值为 0);
     const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
@@ -56,11 +56,20 @@ export const useCartStore = defineStore('cart', () => {
     // 2）总价 所有项的count*price之和
     const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
 
+    // 3）选中的商品数量
+    // item => item.selected :item.selected为true的项
+    const selectedCount = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count, 0))
+
+    // 4)选中商品的总价
+    const selectedPrice = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count * c.price, 0))
+
     return {
         cartList,
         allCount, //购物车 商品总数
         allPrice, //购物车 总价格
         isAll,  //是否全选
+        selectedCount, //选中的商品数量
+        selectedPrice, //选中商品的总价
         addCart,
         delCart,
         singleCheck,
