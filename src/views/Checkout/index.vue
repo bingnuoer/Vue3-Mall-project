@@ -1,7 +1,11 @@
 <script setup>
-import { getCheckInfoAPI } from '@/apis/checkout'
+import { getCheckInfoAPI, createOrderAPI } from '@/apis/checkout'
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cartStore'
 
+const router = useRouter()
+const useCart = useCartStore()
 const checkInfo = ref({})  // 订单对象
 const curAddress = ref({})  // 默认地址对象
 const getCheckInfo = async () => {
@@ -32,6 +36,34 @@ const confirm = () => {
     showDialog.value = false
     // 点击的地址恢复默认状态
     activeAddress.value = {}
+}
+
+// 提交订单
+const createOrder = async () => {
+    const res = await createOrderAPI({
+        deliveryTimeType: 1, //配送时间
+        payType: 1, //支付方式
+        payChannel: 1, //支付渠道
+        buyerMessage: '', //买家备注留言
+        goods: checkInfo.value.goods.map(item => {
+            return {
+                skuId: item.skuId, //商品库存量单位id
+                count: item.count //商品数量
+            }
+        }),
+        addressId: curAddress.value.id //收货地址id
+    })
+
+    // 携带订单id 进行路由跳转
+    const orderId = res.result.id
+    router.push({
+        path: '/pay',
+        query: {
+            id: orderId
+        }
+    })
+    // 更新购物车
+    useCart.updateNewList()
 }
 
 
@@ -129,7 +161,7 @@ const confirm = () => {
                 </div>
                 <!-- 提交订单 -->
                 <div class="submit">
-                    <el-button type="primary" size="large">提交订单</el-button>
+                    <el-button type="primary" size="large" @click="createOrder()">提交订单</el-button>
                 </div>
             </div>
         </div>
