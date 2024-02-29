@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 // token请求头
-import { useUserStore } from '@/stores/user.js'
+import { useUserStore } from '@/stores/userStore.js'
 
 // 解决样式覆盖
 import 'element-plus/theme-chalk/el-message.css'

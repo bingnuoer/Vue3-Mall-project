@@ -7,7 +7,7 @@ import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 // useRouter 调方法，useRoute 获取参数
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user.js'
+import { useUserStore } from '@/stores/userStore.js'
 
 // 1.用户名和密码  只需要通过简单的配置(看文档的方式-复杂功能通过多个不同组件拆解)
 // 2.同意协议      自定义规则 validator :(rule,value , callback)=>{}

@@ -18,3 +18,14 @@ export const FindNewCartListAPI = () => {
         url: '/member/cart'
     })
 }
+
+// 删除购物车列表里的商品
+export const delCartAPI = (ids) => {
+    return request({
+        url: '/member/cart',
+        method: 'DELETE',
+        data: {
+            ids //商品sku的id集合 数组
+        }
+    })
+}
