@@ -108,7 +108,8 @@ export const useCartStore = defineStore('cart', () => {
         delCart,
         singleCheck,
         allCheck, // 全选功能
-        clearCart
+        clearCart,
+        updateNewList
     }
 },
     {
