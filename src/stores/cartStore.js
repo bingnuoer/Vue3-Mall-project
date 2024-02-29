@@ -10,6 +10,7 @@ export const useCartStore = defineStore('cart', () => {
     // 1.定义state - cartList
     const cartList = ref([])
     // 2.定义action - addCart
+    // 添加购物车逻辑
     const addCart = async (goods) => {
         const { skuId, count } = goods
         if (isLogin.value) {
@@ -59,6 +60,11 @@ export const useCartStore = defineStore('cart', () => {
         cartList.value = res.result
     }
 
+    // 4.退出登录 清除购物车列表
+    const clearCart = ()=>{
+        cartList.value = []
+    }
+
     // 单选功能
     const singleCheck = (skuId, selected) => {
         // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
@@ -101,7 +107,8 @@ export const useCartStore = defineStore('cart', () => {
         addCart,
         delCart,
         singleCheck,
-        allCheck // 全选功能
+        allCheck, // 全选功能
+        clearCart
     }
 },
     {
