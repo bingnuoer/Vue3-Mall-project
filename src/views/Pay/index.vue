@@ -7,13 +7,25 @@ import { useRoute } from 'vue-router'
 const payInfo = ref({})
 const route = useRoute()
 
-const getOrder = async () => {
+const getPayInfo = async () => {
     // 路由传参
     const res = await getOrderAPI(route.query.id)
     payInfo.value = res.result
 }
 
-onMounted(() => getOrder())
+onMounted(() => getPayInfo())
+
+// 跳转支付
+// 携带订单id以及回调地址跳转到支付地址（get）
+// 支付地址
+// 接口基地址
+const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+// 回跳地址
+const backURL = 'http://127.0.0.1:5173/paycallback'
+// 处理路径
+const redirectUrl = encodeURIComponent(backURL)
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
+
 </script>
 
 
