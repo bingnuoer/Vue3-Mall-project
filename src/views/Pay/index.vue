@@ -1,11 +1,11 @@
 <script setup>
 import { getOrderAPI } from '@/apis/pay'
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
+const route = useRoute()
 // 支付订单页数据
 const payInfo = ref({})
-const route = useRoute()
 
 const getPayInfo = async () => {
     // 路由传参
@@ -25,6 +25,7 @@ const backURL = 'http://127.0.0.1:5173/paycallback'
 // 处理路径
 const redirectUrl = encodeURIComponent(backURL)
 const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
+
 
 </script>
 
