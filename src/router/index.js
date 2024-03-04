@@ -78,7 +78,9 @@ const router = createRouter({
           component: Member,
           children: [
             {
-              path: 'user',
+              // path: 'user',
+              // 在二级路由下默认展示三极路由，置空
+              path: '',
               component: MemberInfo
             },
             {
