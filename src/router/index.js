@@ -74,7 +74,7 @@ const router = createRouter({
           component: PayBack
         },
         {
-          path: 'member',
+          path: '/member',
           component: Member,
           children: [
             {
