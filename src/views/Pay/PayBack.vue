@@ -1,7 +1,7 @@
 <script setup>
 import { getOrderAPI } from '@/apis/pay'
 import { ref, onMounted } from 'vue'
-import {useRoute}from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const orderInfo = ref({})
